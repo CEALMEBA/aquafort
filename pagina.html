@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purificadora de Agua y Hielo</title>
+    <!-- Importando tipografía moderna y estilizada -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-ocean: #012a4a;
+            --primary-water: #014f86;
+            --bright-cyan: #2a6f97;
+            --ice-tint: #e2f0fb;
+            --pure-white: #ffffff;
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background: linear-gradient(135deg, #a9d6e5 0%, #89c2d9 40%, #61a5c2 100%);
+            background-attachment: fixed;
+            color: var(--deep-ocean); 
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Cabecera estilo ola de agua profunda */
+        header { 
+            background: linear-gradient(180deg, var(--deep-ocean), var(--primary-water)); 
+            color: var(--pure-white); 
+            text-align: center; 
+            padding: 50px 20px 45px 20px; 
+            position: relative;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            box-shadow: 0 10px 30px rgba(1, 42, 74, 0.3);
+        }
+
+        .logo-container img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid var(--ice-tint);
+            box-shadow: 0 0 25px rgba(97, 165, 194, 0.8);
+            background: var(--pure-white);
+            object-fit: cover;
+        }
+
+        header h1 { 
+            margin: 18px 0 6px 0; 
+            font-size: 26px; 
+            letter-spacing: 1px; 
+            text-transform: uppercase;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            font-weight: 700;
+        }
+
+        header p { 
+            margin: 0; 
+            font-size: 15px; 
+            color: var(--ice-tint);
+            font-weight: 300;
+        }
+
+        .container { max-width: 650px; margin: 30px auto; padding: 0 15px; }
+
+        /* Tarjetas con efecto vidrio purificado (Glassmorphism) */
+        .card { 
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(12px);
+            padding: 25px; 
+            border-radius: 24px; 
+            box-shadow: 0 10px 30px rgba(1, 79, 134, 0.12); 
+            margin-bottom: 25px; 
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover { transform: translateY(-3px); }
+
+        h2 { 
+            color: var(--primary-water); 
+            font-size: 19px; 
+            border-bottom: 2px solid var(--ice-tint); 
+            padding-bottom: 10px; 
+            margin-top: 0; 
+            font-weight: 600;
+        }
+
+        .info-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            text-align: center; 
+            margin-top: 15px; 
+        }
+
+        .info-box { 
+            background: var(--ice-tint); 
+            padding: 14px; 
+            border-radius: 14px; 
+            font-weight: 600; 
+            color: var(--primary-water); 
+            border: 1px solid #bde0fe;
+        }
+
+        .badge-offer { 
+            background: linear-gradient(135deg, #e2f0fb, #bde0fe); 
+            border: 2px dashed var(--bright-cyan); 
+            padding: 20px; 
+            border-radius: 16px; 
+            margin-top: 18px; 
+            text-align: center; 
+        }
+
+        /* Selector de productos interactivo */
+        .product-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .product-option {
+            border: 2px solid #bde0fe;
+            border-radius: 16px;
+            padding: 16px 10px;
+            text-align: center;
+            cursor: pointer;
+            background: var(--pure-white);
+            font-weight: 600;
+            color: var(--bright-cyan);
+            transition: all 0.25s ease;
+            font-size: 14px;
+        }
+
+        .product-option:hover {
+            border-color: var(--primary-water);
+            background: var(--ice-tint);
+        }
+
+        .product-option.selected {
+            border-color: var(--primary-water);
+            background: linear-gradient(135deg, var(--primary-water), var(--bright-cyan));
+            color: var(--pure-white);
+            box-shadow: 0 6px 15px rgba(1, 79, 134, 0.3);
+            transform: scale(1.02);
+        }
+
+        /* Formularios limpios */
+        label { 
+            font-weight: 600; 
+            display: block; 
+            margin-top: 18px; 
+            font-size: 13px; 
+            color: var(--deep-ocean); 
+        }
+
+        input { 
+            width: 100%; 
+            padding: 14px; 
+            margin-top: 6px; 
+            border: 2px solid #bde0fe; 
+            border-radius: 12px; 
+            box-sizing: border-box; 
+            font-size: 15px; 
+            background: var(--pure-white); 
+            color: var(--deep-ocean);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        input:focus { 
+            outline: none; 
+            border-color: var(--bright-cyan); 
+            box-shadow: 0 0 8px rgba(42, 111, 151, 0.25); 
+        }
+
+        /* Botón de WhatsApp */
+        .btn-whatsapp { 
+            background: linear-gradient(135deg, #25d366, #128c7e); 
+            color: var(--pure-white); 
+            border: none; 
+            padding: 18px; 
+            width: 100%; 
+            border-radius: 14px; 
+            font-size: 16px; 
+            font-weight: 600; 
+            margin-top: 28px; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 10px; 
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            transition: all 0.25s ease; 
+        }
+
+        .btn-whatsapp:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6); 
+        }
+
+        footer { 
+            text-align: center; 
+            padding: 25px; 
+            font-size: 13px; 
+            color: var(--deep-ocean); 
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <!-- Tu logotipo adaptado -->
+            <img src="logo-purificadora.png" alt="Logotipo Purificadora">
+        </div>
+        <h1>Purificadora de Agua</h1>
+        <p>💧 Agua purificada de máxima calidad y hielo al instante</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- Tarjeta de Ubicación -->
+        <div class="card">
+            <h2>📍 Ubicación y Contacto Directo</h2>
+            <p><strong>Dirección:</strong> Calle 11 Sur 130, Col. Los Encinos, Fortín, Ver.</p>
+            <div class="info-grid">
+                <div class="info-box">📞 271 113 2706</div>
+                <div class="info-box">📞 271 139 7573</div>
+            </div>
+        </div>
+
+        <!-- Tarjeta de Productos y Oferta -->
+        <div class="card">
+            <h2>🌊 Calidad y Promociones</h2>
+            <p>Disfruta de nuestro servicio exprés a domicilio para tus garrafones y bolsas de hielo.</p>
+            <div class="badge-offer">
+                <span style="font-size: 24px;">⭐</span>
+                <p style="margin: 8px 0 4px 0; font-weight: 700; color: var(--deep-ocean);">¡OFERTA ESPECIAL EN SUCURSAL!</p>
+                <p style="margin: 0; font-size: 15px; color: var(--primary-water);">Relleno de galón a solo <strong>$10.00 pesos</strong></p>
+            </div>
+        </div>
+
+        <!-- Formulario Interactivo -->
+        <div class="card" id="pedido">
+            <h2>🛒 Asistente de Pedido Rápido</h2>
+            <p style="font-size: 14px; color: #495057;">Selecciona tu producto, indica la cantidad y envíalo automáticamente a nuestro WhatsApp.</p>
+            
+            <label>¿Qué se te ofrece hoy?</label>
+            <div class="product-selector">
+                <div class="product-option selected" onclick="seleccionarProducto(this, 'Garrafón de Agua (A domicilio)')">
+                    💧 Garrafón de Agua
+                </div>
+                <div class="product-option" onclick="seleccionarProducto(this, 'Bolsa de Hielo')">
+                    🧊 Bolsa de Hielo
+                </div>
+            </div>
+            <!-- Campo oculto que guarda la selección -->
+            <input type="hidden" id="producto" value="Garrafón de Agua (A domicilio)">
+
+            <label for="cantidad">📦 ¿Cuántas unidades?</label>
+            <input type="number" id="cantidad" min="1" value="1">
+
+            <label for="direccion">📍 Dirección de entrega:</label>
+            <input type="text" id="direccion" placeholder="Calle, número, referencias...">
+
+            <label for="nombre">👤 Tu nombre:</label>
+            <input type="text" id="nombre" placeholder="Nombre completo">
+
+            <button class="btn-whatsapp" onclick="enviarWhatsApp()">
+                Enviar Pedido por WhatsApp 🚀
+            </button>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Conservar en un lugar limpio, fresco y seco. Contenido Neto 19 Lts.</p>
+    </footer>
+
+   <script>
+        function seleccionarProducto(elemento, valor) {
+            const opciones = document.querySelectorAll('.product-option');
+            opciones.forEach(opt => opt.classList.remove('selected'));
+            elemento.classList.add('selected');
+            document.getElementById('producto').value = valor;
+        }
+
+        function enviarWhatsApp() {
+            const telefono = "5212711132706"; // Número de la purificadora
+            const producto = document.getElementById("producto").value;
+            const cantidad = document.getElementById("cantidad").value;
+            const direccion = document.getElementById("direccion").value;
+            const nombre = document.getElementById("nombre").value;
+
+            if (!direccion || !nombre) {
+                alert("Por favor completa tu nombre y dirección de entrega.");
+                return;
+            }
+
+            // Seleccionamos el icono correcto según el producto
+            const iconoProducto = producto.includes("Hielo") ? "🧊" : "💧";
+
+            // Estructura limpia del mensaje
+            const textoMensaje = `¡Hola! Quisiera hacer un pedido:\n\n` +
+                                 `${iconoProducto} Producto: ${producto}\n` +
+                                 `📦 Cantidad: ${cantidad}\n` +
+                                 `📍 Dirección: ${direccion}\n` +
+                                 `👤 A nombre de: ${nombre}`;
+            
+            // Usamos la API oficial de WhatsApp para asegurar la compatibilidad de los emojis
+            const urlWhatsApp = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(textoMensaje)}`;
+            
+            window.open(urlWhatsApp, '_blank');
+        }
+    </script>
+
+</body>
+</html>
