@@ -224,16 +224,6 @@
     </header>
 
     <div class="container">
-        
-        <!-- Tarjeta de Ubicación -->
-        <div class="card">
-            <h2>📍 Ubicación y Contacto Directo</h2>
-            <p><strong>Dirección:</strong> Calle 11 Sur 130, Col. Los Encinos, Fortín, Ver.</p>
-            <div class="info-grid">
-                <div class="info-box">📞 271 113 2706</div>
-                <div class="info-box">📞 271 139 7573</div>
-            </div>
-        </div>
 
         <!-- Tarjeta de Productos y Oferta -->
         <div class="card">
@@ -277,13 +267,23 @@
             </button>
         </div>
 
-    </div>
+        <!-- Tarjeta de Ubicación (AHORA DENTRO DEL CONTAINER) -->
+        <div class="card">
+            <h2>📍 Ubicación y Contacto Directo</h2>
+            <p><strong>Dirección:</strong> Calle 11 Sur 130, Col. Los Encinos, Fortín, Ver.</p>
+            <div class="info-grid">
+                <div class="info-box">📞 271 113 2706</div>
+                <div class="info-box">📞 271 139 7573</div>
+            </div>
+        </div>
+
+    </div> <!-- Cierre del container -->
 
     <footer>
         <p>Conservar en un lugar limpio, fresco y seco. Contenido Neto 19 Lts.</p>
     </footer>
 
-   <script>
+    <script>
         function seleccionarProducto(elemento, valor) {
             const opciones = document.querySelectorAll('.product-option');
             opciones.forEach(opt => opt.classList.remove('selected'));
