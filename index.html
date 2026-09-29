@@ -136,6 +136,9 @@
             font-size: 14px;
         }
 
+        /* La opción combinada ocupa todo el ancho */
+        .product-option.ancho { grid-column: 1 / -1; }
+
         .product-option:hover {
             border-color: var(--primary-water);
             background: var(--ice-tint);
@@ -175,6 +178,49 @@
             outline: none; 
             border-color: var(--bright-cyan); 
             box-shadow: 0 0 8px rgba(42, 111, 151, 0.25); 
+        }
+
+        /* Cantidades dobles (agua + hielo) */
+        .cantidad-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .cantidad-grid input { text-align: center; }
+
+        /* Botón de ubicación GPS */
+        .btn-ubicacion {
+            width: 100%;
+            margin-top: 12px;
+            padding: 14px;
+            border-radius: 12px;
+            border: 2px dashed var(--bright-cyan);
+            background: var(--ice-tint);
+            color: var(--primary-water);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.25s ease;
+        }
+        .btn-ubicacion:hover { background: #d3e9fa; transform: translateY(-2px); }
+
+        .ubicacion-estado {
+            font-size: 12.5px;
+            margin-top: 8px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        .ubicacion-estado.ok { color: #128c7e; }
+        .ubicacion-estado.error { color: #c1121f; }
+        .ubicacion-estado.cargando { color: var(--bright-cyan); }
+        .ubicacion-estado a { color: var(--primary-water); }
+
+        .nota-mini {
+            font-size: 11.5px;
+            color: #6c757d;
+            margin-top: 6px;
+            font-weight: 400;
         }
 
         /* Botón de WhatsApp */
@@ -249,15 +295,46 @@
                 <div class="product-option" onclick="seleccionarProducto(this, 'Bolsa de Hielo')">
                     🧊 Bolsa de Hielo
                 </div>
+                <div class="product-option ancho" onclick="seleccionarProducto(this, 'Agua + Hielo (Ambos)')">
+                    💧🧊 Quiero los dos (Agua + Hielo)
+                </div>
             </div>
             <!-- Campo oculto que guarda la selección -->
             <input type="hidden" id="producto" value="Garrafón de Agua (A domicilio)">
 
-            <label for="cantidad">📦 ¿Cuántas unidades?</label>
-            <input type="number" id="cantidad" min="1" value="1">
+            <!-- Cantidad simple (un solo producto) -->
+            <div id="bloque-cantidad-simple">
+                <label for="cantidad">📦 ¿Cuántas unidades?</label>
+                <input type="number" id="cantidad" min="1" value="1">
+            </div>
+
+            <!-- Cantidades separadas (cuando piden agua + hielo) -->
+            <div id="bloque-cantidad-doble" style="display:none;">
+                <div class="cantidad-grid">
+                    <div>
+                        <label for="cantidadAgua">💧 Garrafones de agua</label>
+                        <input type="number" id="cantidadAgua" min="0" value="1">
+                    </div>
+                    <div>
+                        <label for="cantidadHielo">🧊 Bolsas de hielo</label>
+                        <input type="number" id="cantidadHielo" min="0" value="1">
+                    </div>
+                </div>
+                <p class="nota-mini">Puedes dejar en 0 lo que no necesites.</p>
+            </div>
 
             <label for="direccion">📍 Dirección de entrega:</label>
             <input type="text" id="direccion" placeholder="Calle, número, referencias...">
+
+            <!-- UBICACIÓN EXACTA -->
+            <label>🗺️ Ubicación exacta (opcional pero recomendada):</label>
+            <button type="button" class="btn-ubicacion" onclick="obtenerUbicacion()">
+                📡 Enviar mi ubicación exacta (GPS)
+            </button>
+            <div id="ubicacion-estado" class="ubicacion-estado"></div>
+
+            <input type="text" id="linkMapa" placeholder="…o pega aquí tu enlace de Google Maps">
+            <p class="nota-mini">Si el GPS no funciona, abre Google Maps, mantén presionado tu punto y pega el enlace aquí.</p>
 
             <label for="nombre">👤 Tu nombre:</label>
             <input type="text" id="nombre" placeholder="Nombre completo">
@@ -267,14 +344,14 @@
             </button>
         </div>
 
-        <!-- Tarjeta de Ubicación (AHORA DENTRO DEL CONTAINER) -->
+        <!-- Tarjeta de Ubicación -->
         <div class="card">
             <h2>📍 Ubicación y Contacto Directo</h2>
             <p><strong>Dirección:</strong> Calle 11 Sur 130, Col. Los Encinos, Fortín, Ver.</p>
-        <div class="info-grid">
-    <a href="tel:2711132706" class="info-box">📞 271 113 2706</a>
-    <a href="tel:2711397573" class="info-box">📞 271 139 7573</a>
-</div>
+            <div class="info-grid">
+                <a href="tel:2711132706" class="info-box">📞 271 113 2706</a>
+                <a href="tel:2711397573" class="info-box">📞 271 139 7573</a>
+            </div>
         </div>
 
     </div> <!-- Cierre del container -->
@@ -284,38 +361,103 @@
     </footer>
 
     <script>
+        /* ---------- SELECTOR DE PRODUCTO ---------- */
         function seleccionarProducto(elemento, valor) {
             const opciones = document.querySelectorAll('.product-option');
             opciones.forEach(opt => opt.classList.remove('selected'));
             elemento.classList.add('selected');
             document.getElementById('producto').value = valor;
+
+            // Si elige "los dos", mostramos cantidades separadas
+            const esDoble = valor.includes('Ambos');
+            document.getElementById('bloque-cantidad-simple').style.display = esDoble ? 'none' : 'block';
+            document.getElementById('bloque-cantidad-doble').style.display  = esDoble ? 'block' : 'none';
         }
 
+        /* ---------- OBTENER UBICACIÓN GPS ---------- */
+        function obtenerUbicacion() {
+            const estado = document.getElementById('ubicacion-estado');
+
+            if (!navigator.geolocation) {
+                estado.textContent = "⚠️ Tu navegador no permite obtener la ubicación. Pega tu enlace de Google Maps abajo.";
+                estado.className = "ubicacion-estado error";
+                return;
+            }
+
+            estado.textContent = "⏳ Obteniendo tu ubicación, acepta el permiso...";
+            estado.className = "ubicacion-estado cargando";
+
+            navigator.geolocation.getCurrentPosition(
+                function (posicion) {
+                    const lat = posicion.coords.latitude.toFixed(6);
+                    const lng = posicion.coords.longitude.toFixed(6);
+                    const enlace = `https://www.google.com/maps?q=${lat},${lng}`;
+
+                    document.getElementById('linkMapa').value = enlace;
+
+                    estado.innerHTML = `✅ ¡Ubicación capturada! <a href="${enlace}" target="_blank">Ver en el mapa</a>`;
+                    estado.className = "ubicacion-estado ok";
+                },
+                function (error) {
+                    let mensaje = "⚠️ No pudimos obtener tu ubicación. ";
+                    if (error.code === error.PERMISSION_DENIED) {
+                        mensaje += "Permiso denegado: actívalo en tu navegador o pega el enlace de Google Maps abajo.";
+                    } else if (error.code === error.POSITION_UNAVAILABLE) {
+                        mensaje += "Señal no disponible. Pega el enlace de Google Maps abajo.";
+                    } else {
+                        mensaje += "Intenta de nuevo o pega el enlace de Google Maps abajo.";
+                    }
+                    estado.textContent = mensaje;
+                    estado.className = "ubicacion-estado error";
+                },
+                { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+            );
+        }
+
+        /* ---------- ENVIAR PEDIDO A WHATSAPP ---------- */
         function enviarWhatsApp() {
-            const telefono = "5212711132706"; // Número de la purificadora
-            const producto = document.getElementById("producto").value;
-            const cantidad = document.getElementById("cantidad").value;
-            const direccion = document.getElementById("direccion").value;
-            const nombre = document.getElementById("nombre").value;
+            const telefono  = "5212711132706"; // Número de la purificadora
+            const producto  = document.getElementById("producto").value;
+            const direccion = document.getElementById("direccion").value.trim();
+            const nombre    = document.getElementById("nombre").value.trim();
+            const mapa      = document.getElementById("linkMapa").value.trim();
 
             if (!direccion || !nombre) {
                 alert("Por favor completa tu nombre y dirección de entrega.");
                 return;
             }
 
-            // Seleccionamos el icono correcto según el producto
-            const iconoProducto = producto.includes("Hielo") ? "🧊" : "💧";
+            let lineas = ["¡Hola! Quisiera hacer un pedido:", ""];
 
-            // Estructura limpia del mensaje
-            const textoMensaje = `¡Hola! Quisiera hacer un pedido:\n\n` +
-                                 `${iconoProducto} Producto: ${producto}\n` +
-                                 `📦 Cantidad: ${cantidad}\n` +
-                                 `📍 Dirección: ${direccion}\n` +
-                                 `👤 A nombre de: ${nombre}`;
-            
+            if (producto.includes("Ambos")) {
+                // Pedido combinado: agua + hielo
+                const agua  = parseInt(document.getElementById("cantidadAgua").value)  || 0;
+                const hielo = parseInt(document.getElementById("cantidadHielo").value) || 0;
+
+                if (agua <= 0 && hielo <= 0) {
+                    alert("Indica al menos 1 garrafón de agua o 1 bolsa de hielo.");
+                    return;
+                }
+
+                lineas.push("🛒 Producto: Agua + Hielo");
+                if (agua  > 0) lineas.push(`💧 Garrafones de agua: ${agua}`);
+                if (hielo > 0) lineas.push(`🧊 Bolsas de hielo: ${hielo}`);
+            } else {
+                const cantidad = document.getElementById("cantidad").value;
+                const iconoProducto = producto.includes("Hielo") ? "🧊" : "💧";
+                lineas.push(`${iconoProducto} Producto: ${producto}`);
+                lineas.push(`📦 Cantidad: ${cantidad}`);
+            }
+
+            lineas.push(`📍 Dirección: ${direccion}`);
+            if (mapa) lineas.push(`🗺️ Ubicación exacta: ${mapa}`);
+            lineas.push(`👤 A nombre de: ${nombre}`);
+
+            const textoMensaje = lineas.join("\n");
+
             // Usamos la API oficial de WhatsApp para asegurar la compatibilidad de los emojis
             const urlWhatsApp = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(textoMensaje)}`;
-            
+
             window.open(urlWhatsApp, '_blank');
         }
     </script>
