@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Purificadora de Agua y Hielo</title>
-    <!-- Importando tipografía moderna y estilizada -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --deep-ocean: #012a4a;
@@ -102,6 +101,7 @@
             font-weight: 600; 
             color: var(--primary-water); 
             border: 1px solid #bde0fe;
+            text-decoration: none;
         }
 
         .badge-offer { 
@@ -216,53 +216,58 @@
             font-weight: 400;
         }
 
-        /* Foto de fachada */
-        .foto-botones {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 6px;
-        }
-        .btn-foto {
-            padding: 14px 10px;
-            border-radius: 12px;
-            border: 2px dashed #bde0fe;
-            background: var(--pure-white);
-            color: var(--primary-water);
-            font-weight: 600;
-            font-size: 13.5px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.25s ease;
-        }
-        .btn-foto:hover { border-color: var(--bright-cyan); background: var(--ice-tint); transform: translateY(-2px); }
-
-        .foto-preview {
-            margin-top: 12px;
+        /* AVISO LLAMATIVO */
+        .aviso-fachada {
+            margin-top: 22px;
+            padding: 20px 18px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #fff4d6 0%, #ffe9b3 100%);
+            border: 3px solid #ffb300;
+            box-shadow: 0 8px 20px rgba(255, 179, 0, 0.3);
             text-align: center;
-        }
-        .foto-preview img {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 12px;
-            border: 2px solid var(--ice-tint);
-            box-shadow: 0 4px 10px rgba(1,79,134,0.15);
-            display: none;
+            position: relative;
+            overflow: hidden;
+            animation: pulsoAviso 2.4s ease-in-out infinite;
         }
 
-        .btn-quitar-foto {
-            margin-top: 8px;
-            padding: 8px 14px;
-            border-radius: 10px;
-            border: none;
-            background: #f8d7da;
-            color: #842029;
-            font-weight: 600;
-            font-size: 12.5px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
+        .aviso-fachada::before {
+            content: "📸";
+            font-size: 40px;
+            display: block;
+            line-height: 1;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 3px 4px rgba(0,0,0,0.15));
         }
-        .btn-quitar-foto:hover { background: #f1b0b7; }
+
+        .aviso-fachada .titulo-aviso {
+            font-size: 18px;
+            font-weight: 800;
+            color: #b45309;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0 10px 0;
+            line-height: 1.3;
+        }
+
+        .aviso-fachada .texto-aviso {
+            font-size: 14.5px;
+            color: #78350f;
+            font-weight: 600;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .aviso-fachada .texto-aviso strong {
+            color: #92400e;
+            background: #fff9e6;
+            padding: 1px 6px;
+            border-radius: 6px;
+        }
+
+        @keyframes pulsoAviso {
+            0%, 100% { box-shadow: 0 8px 20px rgba(255, 179, 0, 0.3); transform: scale(1); }
+            50%      { box-shadow: 0 10px 28px rgba(255, 179, 0, 0.55); transform: scale(1.015); }
+        }
 
         .btn-whatsapp { 
             background: linear-gradient(135deg, #25d366, #128c7e); 
@@ -369,30 +374,14 @@
             <input type="text" id="linkMapa" placeholder="…o pega aquí tu enlace de Google Maps">
             <p class="nota-mini">Si el GPS no funciona, abre Google Maps, mantén presionado tu punto y pega el enlace aquí.</p>
 
-            <!-- FOTO DE FACHADA OPCIONAL -->
-            <label>📷 Foto de la fachada de tu casa (opcional):</label>
-            <div class="foto-botones">
-                <button type="button" class="btn-foto" onclick="document.getElementById('inputCamara').click()">
-                    📸 Tomar foto
-                </button>
-                <button type="button" class="btn-foto" onclick="document.getElementById('inputGaleria').click()">
-                    🖼️ Elegir de galería
-                </button>
+            <!-- AVISO LLAMATIVO -->
+            <div class="aviso-fachada">
+                <p class="titulo-aviso">⚠️ ¡Ayúdanos a llegar más rápido!</p>
+                <p class="texto-aviso">
+                    Si puedes, <strong>pasa una foto de la fachada de tu casa</strong> para mayor seguridad.
+                    Envíala <strong>directamente en el chat</strong>. Si no, <strong>nos comunicaremos contigo</strong> cuando estemos cerca de tu domicilio. 🚚💨
+                </p>
             </div>
-
-            <!-- Dos inputs ocultos: uno abre cámara, otro abre galería -->
-            <input type="file" id="inputCamara"  accept="image/*" capture="environment" style="display:none;">
-            <input type="file" id="inputGaleria" accept="image/*" style="display:none;">
-
-            <div class="foto-preview">
-                <img id="fotoPreviewImg" src="" alt="Vista previa de la fachada">
-                <div>
-                    <button type="button" id="btnQuitarFoto" class="btn-quitar-foto" onclick="quitarFoto()" style="display:none;">
-                        ❌ Quitar foto
-                    </button>
-                </div>
-            </div>
-            <p class="nota-mini">Puedes tomar una foto en el momento o elegir una que ya tengas guardada.</p>
 
             <label for="nombre">👤 Tu nombre:</label>
             <input type="text" id="nombre" placeholder="Nombre completo">
@@ -429,44 +418,6 @@
             document.getElementById('bloque-cantidad-simple').style.display = esDoble ? 'none' : 'block';
             document.getElementById('bloque-cantidad-doble').style.display  = esDoble ? 'block' : 'none';
         }
-
-        /* ---------- FOTO DE FACHADA (CÁMARA O GALERÍA) ---------- */
-        let fotoSeleccionada = null;
-
-        function asignarArchivo(file) {
-            const img = document.getElementById('fotoPreviewImg');
-            const btnQuitar = document.getElementById('btnQuitarFoto');
-
-            if (file) {
-                fotoSeleccionada = file;
-                const reader = new FileReader();
-                reader.onload = e => {
-                    img.src = e.target.result;
-                    img.style.display = 'block';
-                    btnQuitar.style.display = 'inline-block';
-                };
-                reader.readAsDataURL(file);
-            } else {
-                quitarFoto();
-            }
-        }
-
-        function quitarFoto() {
-            fotoSeleccionada = null;
-            document.getElementById('inputCamara').value  = '';
-            document.getElementById('inputGaleria').value = '';
-            const img = document.getElementById('fotoPreviewImg');
-            img.src = '';
-            img.style.display = 'none';
-            document.getElementById('btnQuitarFoto').style.display = 'none';
-        }
-
-        document.getElementById('inputCamara').addEventListener('change', function (e) {
-            if (e.target.files[0]) asignarArchivo(e.target.files[0]);
-        });
-        document.getElementById('inputGaleria').addEventListener('change', function (e) {
-            if (e.target.files[0]) asignarArchivo(e.target.files[0]);
-        });
 
         /* ---------- OBTENER UBICACIÓN GPS ---------- */
         function obtenerUbicacion() {
@@ -509,13 +460,12 @@
         }
 
         /* ---------- ENVIAR PEDIDO A WHATSAPP ---------- */
-        async function enviarWhatsApp() {
+        function enviarWhatsApp() {
             const telefono  = "5212711482917";
             const producto  = document.getElementById("producto").value;
             const direccion = document.getElementById("direccion").value.trim();
             const nombre    = document.getElementById("nombre").value.trim();
             const mapa      = document.getElementById("linkMapa").value.trim();
-            const foto      = fotoSeleccionada;
 
             if (!direccion || !nombre) {
                 alert("Por favor completa tu nombre y dirección de entrega.");
@@ -545,31 +495,15 @@
 
             lineas.push(`📍 Dirección: ${direccion}`);
             if (mapa) lineas.push(`🗺️ Ubicación exacta: ${mapa}`);
-            if (foto) lineas.push(`📷 Foto de fachada: adjunta`);
+            lineas.push("");
+            lineas.push("📷 Si puedes, pasa una foto de la fachada de tu casa para mayor seguridad. Envíala directamente en este chat. Si no, nos comunicaremos contigo cuando estemos cerca de tu domicilio.");
+            lineas.push("");
             lineas.push(`👤 A nombre de: ${nombre}`);
 
             const textoMensaje = lineas.join("\n");
             const urlWhatsApp = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(textoMensaje)}`;
 
-            // Intentar compartir con foto usando Web Share API
-            if (foto && navigator.canShare && navigator.canShare({ files: [foto] })) {
-                try {
-                    await navigator.share({
-                        files: [foto],
-                        title: 'Pedido de agua y hielo',
-                        text: textoMensaje
-                    });
-                    return;
-                } catch (err) {
-                    console.warn('Error al compartir:', err);
-                    if (err.name === 'AbortError') return; // el usuario canceló
-                }
-            }
-
-            // Fallback: abrir WhatsApp con texto (sin foto automática)
-            if (foto) {
-                alert("Tu navegador no permite adjuntar la foto automáticamente. Se abrirá WhatsApp con el mensaje; por favor adjunta la foto manualmente en el chat.");
-            }
+            // Abrimos directamente el chat de WhatsApp con el número y el mensaje.
             window.open(urlWhatsApp, '_blank');
         }
     </script>
