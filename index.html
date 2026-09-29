@@ -26,7 +26,6 @@
             overflow-x: hidden;
         }
 
-        /* Cabecera estilo ola de agua profunda */
         header { 
             background: linear-gradient(180deg, var(--deep-ocean), var(--primary-water)); 
             color: var(--pure-white); 
@@ -66,7 +65,6 @@
 
         .container { max-width: 650px; margin: 30px auto; padding: 0 15px; }
 
-        /* Tarjetas con efecto vidrio purificado (Glassmorphism) */
         .card { 
             background: rgba(255, 255, 255, 0.9); 
             backdrop-filter: blur(12px);
@@ -115,7 +113,6 @@
             text-align: center; 
         }
 
-        /* Selector de productos interactivo */
         .product-selector {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -136,7 +133,6 @@
             font-size: 14px;
         }
 
-        /* La opción combinada ocupa todo el ancho */
         .product-option.ancho { grid-column: 1 / -1; }
 
         .product-option:hover {
@@ -152,7 +148,6 @@
             transform: scale(1.02);
         }
 
-        /* Formularios limpios */
         label { 
             font-weight: 600; 
             display: block; 
@@ -180,7 +175,6 @@
             box-shadow: 0 0 8px rgba(42, 111, 151, 0.25); 
         }
 
-        /* Cantidades dobles (agua + hielo) */
         .cantidad-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -188,7 +182,6 @@
         }
         .cantidad-grid input { text-align: center; }
 
-        /* Botón de ubicación GPS */
         .btn-ubicacion {
             width: 100%;
             margin-top: 12px;
@@ -223,7 +216,54 @@
             font-weight: 400;
         }
 
-        /* Botón de WhatsApp */
+        /* Foto de fachada */
+        .foto-botones {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 6px;
+        }
+        .btn-foto {
+            padding: 14px 10px;
+            border-radius: 12px;
+            border: 2px dashed #bde0fe;
+            background: var(--pure-white);
+            color: var(--primary-water);
+            font-weight: 600;
+            font-size: 13.5px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.25s ease;
+        }
+        .btn-foto:hover { border-color: var(--bright-cyan); background: var(--ice-tint); transform: translateY(-2px); }
+
+        .foto-preview {
+            margin-top: 12px;
+            text-align: center;
+        }
+        .foto-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 12px;
+            border: 2px solid var(--ice-tint);
+            box-shadow: 0 4px 10px rgba(1,79,134,0.15);
+            display: none;
+        }
+
+        .btn-quitar-foto {
+            margin-top: 8px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: none;
+            background: #f8d7da;
+            color: #842029;
+            font-weight: 600;
+            font-size: 12.5px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-quitar-foto:hover { background: #f1b0b7; }
+
         .btn-whatsapp { 
             background: linear-gradient(135deg, #25d366, #128c7e); 
             color: var(--pure-white); 
@@ -261,7 +301,6 @@
 
     <header>
         <div class="logo-container">
-            <!-- Tu logotipo adaptado -->
             <img src="logo-purificadora.png" alt="Logotipo Purificadora">
             <h1>AQUAFORT</h1>
         </div>
@@ -271,7 +310,6 @@
 
     <div class="container">
 
-        <!-- Tarjeta de Productos y Oferta -->
         <div class="card">
             <h2>🌊 Calidad y Promociones</h2>
             <p>Disfruta de nuestro servicio exprés a domicilio para tus garrafones y bolsas de hielo.</p>
@@ -282,7 +320,6 @@
             </div>
         </div>
 
-        <!-- Formulario Interactivo -->
         <div class="card" id="pedido">
             <h2>🛒 Asistente de Pedido Rápido</h2>
             <p style="font-size: 14px; color: #495057;">Selecciona tu producto, indica la cantidad y envíalo automáticamente a nuestro WhatsApp.</p>
@@ -299,16 +336,13 @@
                     💧🧊 Quiero los dos (Agua + Hielo)
                 </div>
             </div>
-            <!-- Campo oculto que guarda la selección -->
             <input type="hidden" id="producto" value="Garrafón de Agua (A domicilio)">
 
-            <!-- Cantidad simple (un solo producto) -->
             <div id="bloque-cantidad-simple">
                 <label for="cantidad">📦 ¿Cuántas unidades?</label>
                 <input type="number" id="cantidad" min="1" value="1">
             </div>
 
-            <!-- Cantidades separadas (cuando piden agua + hielo) -->
             <div id="bloque-cantidad-doble" style="display:none;">
                 <div class="cantidad-grid">
                     <div>
@@ -326,7 +360,6 @@
             <label for="direccion">📍 Dirección de entrega:</label>
             <input type="text" id="direccion" placeholder="Calle, número, referencias...">
 
-            <!-- UBICACIÓN EXACTA -->
             <label>🗺️ Ubicación exacta (opcional pero recomendada):</label>
             <button type="button" class="btn-ubicacion" onclick="obtenerUbicacion()">
                 📡 Enviar mi ubicación exacta (GPS)
@@ -336,6 +369,31 @@
             <input type="text" id="linkMapa" placeholder="…o pega aquí tu enlace de Google Maps">
             <p class="nota-mini">Si el GPS no funciona, abre Google Maps, mantén presionado tu punto y pega el enlace aquí.</p>
 
+            <!-- FOTO DE FACHADA OPCIONAL -->
+            <label>📷 Foto de la fachada de tu casa (opcional):</label>
+            <div class="foto-botones">
+                <button type="button" class="btn-foto" onclick="document.getElementById('inputCamara').click()">
+                    📸 Tomar foto
+                </button>
+                <button type="button" class="btn-foto" onclick="document.getElementById('inputGaleria').click()">
+                    🖼️ Elegir de galería
+                </button>
+            </div>
+
+            <!-- Dos inputs ocultos: uno abre cámara, otro abre galería -->
+            <input type="file" id="inputCamara"  accept="image/*" capture="environment" style="display:none;">
+            <input type="file" id="inputGaleria" accept="image/*" style="display:none;">
+
+            <div class="foto-preview">
+                <img id="fotoPreviewImg" src="" alt="Vista previa de la fachada">
+                <div>
+                    <button type="button" id="btnQuitarFoto" class="btn-quitar-foto" onclick="quitarFoto()" style="display:none;">
+                        ❌ Quitar foto
+                    </button>
+                </div>
+            </div>
+            <p class="nota-mini">Puedes tomar una foto en el momento o elegir una que ya tengas guardada.</p>
+
             <label for="nombre">👤 Tu nombre:</label>
             <input type="text" id="nombre" placeholder="Nombre completo">
 
@@ -344,7 +402,6 @@
             </button>
         </div>
 
-        <!-- Tarjeta de Ubicación -->
         <div class="card">
             <h2>📍 Ubicación y Contacto Directo</h2>
             <p><strong>Dirección:</strong> Calle 11 Sur 130, Col. Los Encinos, Fortín, Ver.</p>
@@ -354,7 +411,7 @@
             </div>
         </div>
 
-    </div> <!-- Cierre del container -->
+    </div>
 
     <footer>
         <p>Conservar en un lugar limpio, fresco y seco. Contenido Neto 19 Lts.</p>
@@ -368,11 +425,48 @@
             elemento.classList.add('selected');
             document.getElementById('producto').value = valor;
 
-            // Si elige "los dos", mostramos cantidades separadas
             const esDoble = valor.includes('Ambos');
             document.getElementById('bloque-cantidad-simple').style.display = esDoble ? 'none' : 'block';
             document.getElementById('bloque-cantidad-doble').style.display  = esDoble ? 'block' : 'none';
         }
+
+        /* ---------- FOTO DE FACHADA (CÁMARA O GALERÍA) ---------- */
+        let fotoSeleccionada = null;
+
+        function asignarArchivo(file) {
+            const img = document.getElementById('fotoPreviewImg');
+            const btnQuitar = document.getElementById('btnQuitarFoto');
+
+            if (file) {
+                fotoSeleccionada = file;
+                const reader = new FileReader();
+                reader.onload = e => {
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    btnQuitar.style.display = 'inline-block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                quitarFoto();
+            }
+        }
+
+        function quitarFoto() {
+            fotoSeleccionada = null;
+            document.getElementById('inputCamara').value  = '';
+            document.getElementById('inputGaleria').value = '';
+            const img = document.getElementById('fotoPreviewImg');
+            img.src = '';
+            img.style.display = 'none';
+            document.getElementById('btnQuitarFoto').style.display = 'none';
+        }
+
+        document.getElementById('inputCamara').addEventListener('change', function (e) {
+            if (e.target.files[0]) asignarArchivo(e.target.files[0]);
+        });
+        document.getElementById('inputGaleria').addEventListener('change', function (e) {
+            if (e.target.files[0]) asignarArchivo(e.target.files[0]);
+        });
 
         /* ---------- OBTENER UBICACIÓN GPS ---------- */
         function obtenerUbicacion() {
@@ -415,12 +509,13 @@
         }
 
         /* ---------- ENVIAR PEDIDO A WHATSAPP ---------- */
-        function enviarWhatsApp() {
-            const telefono  = "5212711132706"; // Número de la purificadora
+        async function enviarWhatsApp() {
+            const telefono  = "5212711132706";
             const producto  = document.getElementById("producto").value;
             const direccion = document.getElementById("direccion").value.trim();
             const nombre    = document.getElementById("nombre").value.trim();
             const mapa      = document.getElementById("linkMapa").value.trim();
+            const foto      = fotoSeleccionada;
 
             if (!direccion || !nombre) {
                 alert("Por favor completa tu nombre y dirección de entrega.");
@@ -430,7 +525,6 @@
             let lineas = ["¡Hola! Quisiera hacer un pedido:", ""];
 
             if (producto.includes("Ambos")) {
-                // Pedido combinado: agua + hielo
                 const agua  = parseInt(document.getElementById("cantidadAgua").value)  || 0;
                 const hielo = parseInt(document.getElementById("cantidadHielo").value) || 0;
 
@@ -451,13 +545,31 @@
 
             lineas.push(`📍 Dirección: ${direccion}`);
             if (mapa) lineas.push(`🗺️ Ubicación exacta: ${mapa}`);
+            if (foto) lineas.push(`📷 Foto de fachada: adjunta`);
             lineas.push(`👤 A nombre de: ${nombre}`);
 
             const textoMensaje = lineas.join("\n");
-
-            // Usamos la API oficial de WhatsApp para asegurar la compatibilidad de los emojis
             const urlWhatsApp = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(textoMensaje)}`;
 
+            // Intentar compartir con foto usando Web Share API
+            if (foto && navigator.canShare && navigator.canShare({ files: [foto] })) {
+                try {
+                    await navigator.share({
+                        files: [foto],
+                        title: 'Pedido de agua y hielo',
+                        text: textoMensaje
+                    });
+                    return;
+                } catch (err) {
+                    console.warn('Error al compartir:', err);
+                    if (err.name === 'AbortError') return; // el usuario canceló
+                }
+            }
+
+            // Fallback: abrir WhatsApp con texto (sin foto automática)
+            if (foto) {
+                alert("Tu navegador no permite adjuntar la foto automáticamente. Se abrirá WhatsApp con el mensaje; por favor adjunta la foto manualmente en el chat.");
+            }
             window.open(urlWhatsApp, '_blank');
         }
     </script>
