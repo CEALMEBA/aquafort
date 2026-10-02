@@ -3,375 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Purificadora de Agua y Hielo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --deep-ocean: #012a4a;
-            --primary-water: #014f86;
-            --bright-cyan: #2a6f97;
-            --ice-tint: #e2f0fb;
-            --pure-white: #ffffff;
+    <title>Aquafort – Purificadora de Agua y Hielo en Fortín, Ver.</title>
+    <meta name="description" content="Aquafort, purificadora de agua y hielo en Fortín, Veracruz. Garrafones y bolsas de hielo a domicilio. Relleno de galón a $10 pesos. Pide por WhatsApp.">
+    <meta name="theme-color" content="#012a4a">
+
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="logo-purificadora.png">
+
+    <!-- Al compartir el enlace (WhatsApp, Facebook, etc.) -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_MX">
+    <meta property="og:site_name" content="Aquafort">
+    <meta property="og:title" content="Aquafort – Purificadora de Agua y Hielo en Fortín, Ver.">
+    <meta property="og:description" content="Garrafones de agua y bolsas de hielo a domicilio. Relleno de galón a $10 pesos. Pide por WhatsApp.">
+
+    <!-- Datos estructurados para Google -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Aquafort",
+        "description": "Purificadora de agua y hielo con servicio a domicilio.",
+        "image": "logo-purificadora.png",
+        "telephone": ["+52 271 113 2706", "+52 271 139 7573"],
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Calle 11 Sur 130, Col. Los Encinos",
+            "addressLocality": "Fortín",
+            "addressRegion": "Veracruz",
+            "addressCountry": "MX"
         }
+    }
+    </script>
 
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            background: linear-gradient(135deg, #a9d6e5 0%, #89c2d9 40%, #61a5c2 100%);
-            background-attachment: fixed;
-            color: var(--deep-ocean); 
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        header { 
-            background: linear-gradient(180deg, var(--deep-ocean), var(--primary-water)); 
-            color: var(--pure-white); 
-            text-align: center; 
-            padding: 50px 20px 45px 20px; 
-            position: relative;
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-            box-shadow: 0 10px 30px rgba(1, 42, 74, 0.3);
-        }
-
-        .logo-container img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid var(--ice-tint);
-            box-shadow: 0 0 25px rgba(97, 165, 194, 0.8);
-            background: var(--pure-white);
-            object-fit: cover;
-        }
-
-        header h1 { 
-            margin: 18px 0 6px 0; 
-            font-size: 26px; 
-            letter-spacing: 1px; 
-            text-transform: uppercase;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            font-weight: 700;
-        }
-
-        header p { 
-            margin: 0; 
-            font-size: 15px; 
-            color: var(--ice-tint);
-            font-weight: 300;
-        }
-
-        .container { max-width: 650px; margin: 30px auto; padding: 0 15px; }
-
-        .card { 
-            background: rgba(255, 255, 255, 0.9); 
-            backdrop-filter: blur(12px);
-            padding: 25px; 
-            border-radius: 24px; 
-            box-shadow: 0 10px 30px rgba(1, 79, 134, 0.12); 
-            margin-bottom: 25px; 
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            transition: transform 0.3s ease;
-        }
-        
-        .card:hover { transform: translateY(-3px); }
-
-        h2 { 
-            color: var(--primary-water); 
-            font-size: 19px; 
-            border-bottom: 2px solid var(--ice-tint); 
-            padding-bottom: 10px; 
-            margin-top: 0; 
-            font-weight: 600;
-        }
-
-        .info-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 12px; 
-            text-align: center; 
-            margin-top: 15px; 
-        }
-
-        .info-box { 
-            background: var(--ice-tint); 
-            padding: 14px; 
-            border-radius: 14px; 
-            font-weight: 600; 
-            color: var(--primary-water); 
-            border: 1px solid #bde0fe;
-            text-decoration: none;
-        }
-
-        .badge-offer { 
-            background: linear-gradient(135deg, #e2f0fb, #bde0fe); 
-            border: 2px dashed var(--bright-cyan); 
-            padding: 20px; 
-            border-radius: 16px; 
-            margin-top: 18px; 
-            text-align: center; 
-        }
-
-        .product-selector {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .product-option {
-            border: 2px solid #bde0fe;
-            border-radius: 16px;
-            padding: 16px 10px;
-            text-align: center;
-            cursor: pointer;
-            background: var(--pure-white);
-            font-weight: 600;
-            color: var(--bright-cyan);
-            transition: all 0.25s ease;
-            font-size: 14px;
-        }
-
-        .product-option.ancho { grid-column: 1 / -1; }
-
-        .product-option:hover {
-            border-color: var(--primary-water);
-            background: var(--ice-tint);
-        }
-
-        .product-option.selected {
-            border-color: var(--primary-water);
-            background: linear-gradient(135deg, var(--primary-water), var(--bright-cyan));
-            color: var(--pure-white);
-            box-shadow: 0 6px 15px rgba(1, 79, 134, 0.3);
-            transform: scale(1.02);
-        }
-
-        label { 
-            font-weight: 600; 
-            display: block; 
-            margin-top: 18px; 
-            font-size: 13px; 
-            color: var(--deep-ocean); 
-        }
-
-        input { 
-            width: 100%; 
-            padding: 14px; 
-            margin-top: 6px; 
-            border: 2px solid #bde0fe; 
-            border-radius: 12px; 
-            box-sizing: border-box; 
-            font-size: 15px; 
-            background: var(--pure-white); 
-            color: var(--deep-ocean);
-            font-family: 'Poppins', sans-serif;
-        }
-
-        input:focus { 
-            outline: none; 
-            border-color: var(--bright-cyan); 
-            box-shadow: 0 0 8px rgba(42, 111, 151, 0.25); 
-        }
-
-        .cantidad-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .cantidad-grid input { text-align: center; }
-
-        .btn-ubicacion {
-            width: 100%;
-            margin-top: 12px;
-            padding: 14px;
-            border-radius: 12px;
-            border: 2px dashed var(--bright-cyan);
-            background: var(--ice-tint);
-            color: var(--primary-water);
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.25s ease;
-        }
-        .btn-ubicacion:hover { background: #d3e9fa; transform: translateY(-2px); }
-
-        .ubicacion-estado {
-            font-size: 12.5px;
-            margin-top: 8px;
-            font-weight: 600;
-            line-height: 1.4;
-        }
-        .ubicacion-estado.ok { color: #128c7e; }
-        .ubicacion-estado.error { color: #c1121f; }
-        .ubicacion-estado.cargando { color: var(--bright-cyan); }
-        .ubicacion-estado a { color: var(--primary-water); }
-
-        .nota-mini {
-            font-size: 11.5px;
-            color: #6c757d;
-            margin-top: 6px;
-            font-weight: 400;
-        }
-
-        /* AVISO LLAMATIVO */
-        .aviso-fachada {
-            margin-top: 22px;
-            padding: 20px 18px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, #fff4d6 0%, #ffe9b3 100%);
-            border: 3px solid #ffb300;
-            box-shadow: 0 8px 20px rgba(255, 179, 0, 0.3);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            animation: pulsoAviso 2.4s ease-in-out infinite;
-        }
-
-        .aviso-fachada::before {
-            content: "📸";
-            font-size: 40px;
-            display: block;
-            line-height: 1;
-            margin-bottom: 8px;
-            filter: drop-shadow(0 3px 4px rgba(0,0,0,0.15));
-        }
-
-        .aviso-fachada .titulo-aviso {
-            font-size: 18px;
-            font-weight: 800;
-            color: #b45309;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 0 0 10px 0;
-            line-height: 1.3;
-        }
-
-        .aviso-fachada .texto-aviso {
-            font-size: 14.5px;
-            color: #78350f;
-            font-weight: 600;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        .aviso-fachada .texto-aviso strong {
-            color: #92400e;
-            background: #fff9e6;
-            padding: 1px 6px;
-            border-radius: 6px;
-        }
-
-        @keyframes pulsoAviso {
-            0%, 100% { box-shadow: 0 8px 20px rgba(255, 179, 0, 0.3); transform: scale(1); }
-            50%      { box-shadow: 0 10px 28px rgba(255, 179, 0, 0.55); transform: scale(1.015); }
-        }
-
-        .btn-whatsapp { 
-            background: linear-gradient(135deg, #25d366, #128c7e); 
-            color: var(--pure-white); 
-            border: none; 
-            padding: 18px; 
-            width: 100%; 
-            border-radius: 14px; 
-            font-size: 16px; 
-            font-weight: 600; 
-            margin-top: 28px; 
-            cursor: pointer; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 10px; 
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
-            transition: all 0.25s ease; 
-        }
-
-        .btn-whatsapp:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6); 
-        }
-
-        footer { 
-            text-align: center; 
-            padding: 25px; 
-            font-size: 13px; 
-            color: var(--deep-ocean); 
-            font-weight: 600;
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
 </head>
 <body>
 
     <header>
         <div class="logo-container">
-            <img src="logo-purificadora.png" alt="Logotipo Purificadora">
+            <picture>
+                <source srcset="logo-purificadora.webp" type="image/webp">
+                <img src="logo-purificadora.png" alt="Logotipo Aquafort" width="120" height="120" fetchpriority="high">
+            </picture>
             <h1>AQUAFORT</h1>
         </div>
         <h1>Purificadora de Agua</h1>
         <p>💧 Agua purificada de máxima calidad y hielo al instante</p>
     </header>
 
-    <div class="container">
+    <main class="container">
 
-        <div class="card">
+        <section class="card">
             <h2>🌊 Calidad y Promociones</h2>
             <p>Disfruta de nuestro servicio exprés a domicilio para tus garrafones y bolsas de hielo.</p>
             <div class="badge-offer">
-                <span style="font-size: 24px;">⭐</span>
-                <p style="margin: 8px 0 4px 0; font-weight: 700; color: var(--deep-ocean);">¡OFERTA ESPECIAL EN SUCURSAL!</p>
-                <p style="margin: 0; font-size: 15px; color: var(--primary-water);">Relleno de galón a solo <strong>$10.00 pesos</strong></p>
+                <span class="estrella" aria-hidden="true">⭐</span>
+                <p class="oferta-titulo">¡OFERTA ESPECIAL EN SUCURSAL!</p>
+                <p class="oferta-texto">Relleno de galón a solo <strong>$10.00 pesos</strong></p>
             </div>
-        </div>
+        </section>
 
-        <div class="card" id="pedido">
+        <section class="card" id="pedido">
             <h2>🛒 Asistente de Pedido Rápido</h2>
-            <p style="font-size: 14px; color: #495057;">Selecciona tu producto, indica la cantidad y envíalo automáticamente a nuestro WhatsApp.</p>
-            
-            <label>¿Qué se te ofrece hoy?</label>
-            <div class="product-selector">
-                <div class="product-option selected" onclick="seleccionarProducto(this, 'Garrafón de Agua (A domicilio)')">
+            <p class="texto-intro">Selecciona tu producto, indica la cantidad y envíalo automáticamente a nuestro WhatsApp.</p>
+
+            <span class="etiqueta" id="etiqueta-producto">¿Qué se te ofrece hoy?</span>
+            <div class="product-selector" role="radiogroup" aria-labelledby="etiqueta-producto">
+                <button type="button" role="radio" aria-checked="true" class="product-option selected" data-valor="Garrafón de Agua (A domicilio)">
                     💧 Garrafón de Agua
-                </div>
-                <div class="product-option" onclick="seleccionarProducto(this, 'Bolsa de Hielo')">
+                </button>
+                <button type="button" role="radio" aria-checked="false" class="product-option" data-valor="Bolsa de Hielo">
                     🧊 Bolsa de Hielo
-                </div>
-                <div class="product-option ancho" onclick="seleccionarProducto(this, 'Agua + Hielo (Ambos)')">
+                </button>
+                <button type="button" role="radio" aria-checked="false" class="product-option ancho" data-valor="Agua + Hielo (Ambos)">
                     💧🧊 Quiero los dos (Agua + Hielo)
-                </div>
+                </button>
             </div>
             <input type="hidden" id="producto" value="Garrafón de Agua (A domicilio)">
 
             <div id="bloque-cantidad-simple">
-                <label for="cantidad">📦 ¿Cuántas unidades?</label>
-                <input type="number" id="cantidad" min="1" value="1">
+                <label class="etiqueta" for="cantidad">📦 ¿Cuántas unidades?</label>
+                <input type="number" id="cantidad" min="1" step="1" value="1" inputmode="numeric" aria-describedby="error-cantidad">
+                <p class="error-campo" id="error-cantidad" role="alert"></p>
             </div>
 
-            <div id="bloque-cantidad-doble" style="display:none;">
+            <div id="bloque-cantidad-doble" hidden>
                 <div class="cantidad-grid">
                     <div>
-                        <label for="cantidadAgua">💧 Garrafones de agua</label>
-                        <input type="number" id="cantidadAgua" min="0" value="1">
+                        <label class="etiqueta" for="cantidadAgua">💧 Garrafones de agua</label>
+                        <input type="number" id="cantidadAgua" min="0" step="1" value="1" inputmode="numeric" aria-describedby="error-cantidadAgua">
+                        <p class="error-campo" id="error-cantidadAgua" role="alert"></p>
                     </div>
                     <div>
-                        <label for="cantidadHielo">🧊 Bolsas de hielo</label>
-                        <input type="number" id="cantidadHielo" min="0" value="1">
+                        <label class="etiqueta" for="cantidadHielo">🧊 Bolsas de hielo</label>
+                        <input type="number" id="cantidadHielo" min="0" step="1" value="1" inputmode="numeric" aria-describedby="error-cantidadHielo">
+                        <p class="error-campo" id="error-cantidadHielo" role="alert"></p>
                     </div>
                 </div>
+                <p class="error-campo" id="error-cantidad-doble" role="alert"></p>
                 <p class="nota-mini">Puedes dejar en 0 lo que no necesites.</p>
             </div>
 
-            <label for="direccion">📍 Dirección de entrega:</label>
-            <input type="text" id="direccion" placeholder="Calle, número, referencias...">
+            <label class="etiqueta" for="direccion">📍 Dirección de entrega:</label>
+            <input type="text" id="direccion" placeholder="Calle, número, referencias..." autocomplete="street-address" aria-describedby="error-direccion">
+            <p class="error-campo" id="error-direccion" role="alert"></p>
 
-            <label>🗺️ Ubicación exacta (opcional pero recomendada):</label>
-            <button type="button" class="btn-ubicacion" onclick="obtenerUbicacion()">
+            <span class="etiqueta">🗺️ Ubicación exacta (opcional pero recomendada):</span>
+            <button type="button" class="btn-ubicacion" id="btn-ubicacion">
                 📡 Enviar mi ubicación exacta (GPS)
             </button>
-            <div id="ubicacion-estado" class="ubicacion-estado"></div>
+            <div id="ubicacion-estado" class="ubicacion-estado" role="status" aria-live="polite"></div>
 
-            <input type="text" id="linkMapa" placeholder="…o pega aquí tu enlace de Google Maps">
+            <input type="text" id="linkMapa" placeholder="…o pega aquí tu enlace de Google Maps" aria-label="Enlace de Google Maps" autocomplete="off">
             <p class="nota-mini">Si el GPS no funciona, abre Google Maps, mantén presionado tu punto y pega el enlace aquí.</p>
 
             <!-- AVISO LLAMATIVO -->
@@ -383,130 +131,29 @@
                 </p>
             </div>
 
-            <label for="nombre">👤 Tu nombre:</label>
-            <input type="text" id="nombre" placeholder="Nombre completo">
+            <label class="etiqueta" for="nombre">👤 Tu nombre:</label>
+            <input type="text" id="nombre" placeholder="Nombre completo" autocomplete="name" aria-describedby="error-nombre">
+            <p class="error-campo" id="error-nombre" role="alert"></p>
 
-            <button class="btn-whatsapp" onclick="enviarWhatsApp()">
+            <button type="button" class="btn-whatsapp" id="btn-enviar">
                 Enviar Pedido por WhatsApp 🚀
             </button>
-        </div>
+        </section>
 
-        <div class="card">
+        <section class="card">
             <h2>📍 Ubicación y Contacto Directo</h2>
             <p><strong>Dirección:</strong> Calle 11 Sur 130, Col. Los Encinos, Fortín, Ver.</p>
             <div class="info-grid">
                 <a href="tel:2711132706" class="info-box">📞 271 113 2706</a>
                 <a href="tel:2711397573" class="info-box">📞 271 139 7573</a>
             </div>
-        </div>
+        </section>
 
-    </div>
+    </main>
 
     <footer>
         <p>Conservar en un lugar limpio, fresco y seco. Contenido Neto 19 Lts.</p>
     </footer>
-
-    <script>
-        /* ---------- SELECTOR DE PRODUCTO ---------- */
-        function seleccionarProducto(elemento, valor) {
-            const opciones = document.querySelectorAll('.product-option');
-            opciones.forEach(opt => opt.classList.remove('selected'));
-            elemento.classList.add('selected');
-            document.getElementById('producto').value = valor;
-
-            const esDoble = valor.includes('Ambos');
-            document.getElementById('bloque-cantidad-simple').style.display = esDoble ? 'none' : 'block';
-            document.getElementById('bloque-cantidad-doble').style.display  = esDoble ? 'block' : 'none';
-        }
-
-        /* ---------- OBTENER UBICACIÓN GPS ---------- */
-        function obtenerUbicacion() {
-            const estado = document.getElementById('ubicacion-estado');
-
-            if (!navigator.geolocation) {
-                estado.textContent = "⚠️ Tu navegador no permite obtener la ubicación. Pega tu enlace de Google Maps abajo.";
-                estado.className = "ubicacion-estado error";
-                return;
-            }
-
-            estado.textContent = "⏳ Obteniendo tu ubicación, acepta el permiso...";
-            estado.className = "ubicacion-estado cargando";
-
-            navigator.geolocation.getCurrentPosition(
-                function (posicion) {
-                    const lat = posicion.coords.latitude.toFixed(6);
-                    const lng = posicion.coords.longitude.toFixed(6);
-                    const enlace = `https://www.google.com/maps?q=${lat},${lng}`;
-
-                    document.getElementById('linkMapa').value = enlace;
-
-                    estado.innerHTML = `✅ ¡Ubicación capturada! <a href="${enlace}" target="_blank">Ver en el mapa</a>`;
-                    estado.className = "ubicacion-estado ok";
-                },
-                function (error) {
-                    let mensaje = "⚠️ No pudimos obtener tu ubicación. ";
-                    if (error.code === error.PERMISSION_DENIED) {
-                        mensaje += "Permiso denegado: actívalo en tu navegador o pega el enlace de Google Maps abajo.";
-                    } else if (error.code === error.POSITION_UNAVAILABLE) {
-                        mensaje += "Señal no disponible. Pega el enlace de Google Maps abajo.";
-                    } else {
-                        mensaje += "Intenta de nuevo o pega el enlace de Google Maps abajo.";
-                    }
-                    estado.textContent = mensaje;
-                    estado.className = "ubicacion-estado error";
-                },
-                { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
-            );
-        }
-
-        /* ---------- ENVIAR PEDIDO A WHATSAPP ---------- */
-        function enviarWhatsApp() {
-            const telefono  = "5212711482917";
-            const producto  = document.getElementById("producto").value;
-            const direccion = document.getElementById("direccion").value.trim();
-            const nombre    = document.getElementById("nombre").value.trim();
-            const mapa      = document.getElementById("linkMapa").value.trim();
-
-            if (!direccion || !nombre) {
-                alert("Por favor completa tu nombre y dirección de entrega.");
-                return;
-            }
-
-            let lineas = ["¡Hola! Quisiera hacer un pedido:", ""];
-
-            if (producto.includes("Ambos")) {
-                const agua  = parseInt(document.getElementById("cantidadAgua").value)  || 0;
-                const hielo = parseInt(document.getElementById("cantidadHielo").value) || 0;
-
-                if (agua <= 0 && hielo <= 0) {
-                    alert("Indica al menos 1 garrafón de agua o 1 bolsa de hielo.");
-                    return;
-                }
-
-                lineas.push("🛒 Producto: Agua + Hielo");
-                if (agua  > 0) lineas.push(`💧 Garrafones de agua: ${agua}`);
-                if (hielo > 0) lineas.push(`🧊 Bolsas de hielo: ${hielo}`);
-            } else {
-                const cantidad = document.getElementById("cantidad").value;
-                const iconoProducto = producto.includes("Hielo") ? "🧊" : "💧";
-                lineas.push(`${iconoProducto} Producto: ${producto}`);
-                lineas.push(`📦 Cantidad: ${cantidad}`);
-            }
-
-            lineas.push(`📍 Dirección: ${direccion}`);
-            if (mapa) lineas.push(`🗺️ Ubicación exacta: ${mapa}`);
-            lineas.push("");
-            lineas.push("📷 Si puedes, pasa una foto de la fachada de tu casa para mayor seguridad. Envíala directamente en este chat. Si no, nos comunicaremos contigo cuando estemos cerca de tu domicilio.");
-            lineas.push("");
-            lineas.push(`👤 A nombre de: ${nombre}`);
-
-            const textoMensaje = lineas.join("\n");
-            const urlWhatsApp = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(textoMensaje)}`;
-
-            // Abrimos directamente el chat de WhatsApp con el número y el mensaje.
-            window.open(urlWhatsApp, '_blank');
-        }
-    </script>
 
 </body>
 </html>
