@@ -6,12 +6,18 @@
     <title>Aquafort – Purificadora de Agua y Hielo en Fortín, Ver.</title>
     <meta name="description" content="Aquafort, purificadora de agua y hielo en Fortín, Veracruz. Garrafones y bolsas de hielo a domicilio. Relleno de galón a $10 pesos. Pide por WhatsApp.">
     <meta name="theme-color" content="#012a4a">
+    <meta name="robots" content="index, follow">
 
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="logo-purificadora.png">
 
     <!-- Al compartir el enlace (WhatsApp, Facebook, etc.) -->
+    <link rel="canonical" href="https://cealmeba.github.io/aquafort/">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cealmeba.github.io/aquafort/">
+    <meta property="og:image" content="https://cealmeba.github.io/aquafort/logo-purificadora.png">
+    <meta property="og:image:alt" content="Logotipo Aquafort">
+    <meta name="twitter:card" content="summary">
     <meta property="og:locale" content="es_MX">
     <meta property="og:site_name" content="Aquafort">
     <meta property="og:title" content="Aquafort – Purificadora de Agua y Hielo en Fortín, Ver.">
@@ -24,7 +30,10 @@
         "@type": "LocalBusiness",
         "name": "Aquafort",
         "description": "Purificadora de agua y hielo con servicio a domicilio.",
-        "image": "logo-purificadora.png",
+        "url": "https://cealmeba.github.io/aquafort/",
+        "image": "https://cealmeba.github.io/aquafort/logo-purificadora.png",
+        "priceRange": "$",
+        "areaServed": "Fortín, Veracruz",
         "telephone": ["+52 271 113 2706", "+52 271 139 7573"],
         "address": {
             "@type": "PostalAddress",
@@ -36,9 +45,8 @@
     }
     </script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/poppins-700.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="styles.css">
     <script src="app.js" defer></script>
 </head>
@@ -50,7 +58,7 @@
                 <source srcset="logo-purificadora.webp" type="image/webp">
                 <img src="logo-purificadora.png" alt="Logotipo Aquafort" width="120" height="120" fetchpriority="high">
             </picture>
-            <h1>AQUAFORT</h1>
+            <p class="marca">AQUAFORT</p>
         </div>
         <h1>Purificadora de Agua</h1>
         <p>💧 Agua purificada de máxima calidad y hielo al instante</p>
@@ -155,110 +163,7 @@
         <p>Conservar en un lugar limpio, fresco y seco. Contenido Neto 19 Lts.</p>
     </footer>
 
-<<<<<<< HEAD
-=======
-    <script>
-        /* ---------- SELECTOR DE PRODUCTO ---------- */
-        function seleccionarProducto(elemento, valor) {
-            const opciones = document.querySelectorAll('.product-option');
-            opciones.forEach(opt => opt.classList.remove('selected'));
-            elemento.classList.add('selected');
-            document.getElementById('producto').value = valor;
+    <a class="wa-flotante" href="#pedido" aria-label="Ir al formulario de pedido">💬 Pedir ahora</a>
 
-            const esDoble = valor.includes('Ambos');
-            document.getElementById('bloque-cantidad-simple').style.display = esDoble ? 'none' : 'block';
-            document.getElementById('bloque-cantidad-doble').style.display  = esDoble ? 'block' : 'none';
-        }
-
-        /* ---------- OBTENER UBICACIÓN GPS ---------- */
-        function obtenerUbicacion() {
-            const estado = document.getElementById('ubicacion-estado');
-
-            if (!navigator.geolocation) {
-                estado.textContent = "⚠️ Tu navegador no permite obtener la ubicación. Pega tu enlace de Google Maps abajo.";
-                estado.className = "ubicacion-estado error";
-                return;
-            }
-
-            estado.textContent = "⏳ Obteniendo tu ubicación, acepta el permiso...";
-            estado.className = "ubicacion-estado cargando";
-
-            navigator.geolocation.getCurrentPosition(
-                function (posicion) {
-                    const lat = posicion.coords.latitude.toFixed(6);
-                    const lng = posicion.coords.longitude.toFixed(6);
-                    const enlace = `https://www.google.com/maps?q=${lat},${lng}`;
-
-                    document.getElementById('linkMapa').value = enlace;
-
-                    estado.innerHTML = `✅ ¡Ubicación capturada! <a href="${enlace}" target="_blank">Ver en el mapa</a>`;
-                    estado.className = "ubicacion-estado ok";
-                },
-                function (error) {
-                    let mensaje = "⚠️ No pudimos obtener tu ubicación. ";
-                    if (error.code === error.PERMISSION_DENIED) {
-                        mensaje += "Permiso denegado: actívalo en tu navegador o pega el enlace de Google Maps abajo.";
-                    } else if (error.code === error.POSITION_UNAVAILABLE) {
-                        mensaje += "Señal no disponible. Pega el enlace de Google Maps abajo.";
-                    } else {
-                        mensaje += "Intenta de nuevo o pega el enlace de Google Maps abajo.";
-                    }
-                    estado.textContent = mensaje;
-                    estado.className = "ubicacion-estado error";
-                },
-                { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
-            );
-        }
-
-        /* ---------- ENVIAR PEDIDO A WHATSAPP ---------- */
-        function enviarWhatsApp() {
-            const telefono  = "5212711132706";
-            const producto  = document.getElementById("producto").value;
-            const direccion = document.getElementById("direccion").value.trim();
-            const nombre    = document.getElementById("nombre").value.trim();
-            const mapa      = document.getElementById("linkMapa").value.trim();
-
-            if (!direccion || !nombre) {
-                alert("Por favor completa tu nombre y dirección de entrega.");
-                return;
-            }
-
-            let lineas = ["¡Hola! Quisiera hacer un pedido:", ""];
-
-            if (producto.includes("Ambos")) {
-                const agua  = parseInt(document.getElementById("cantidadAgua").value)  || 0;
-                const hielo = parseInt(document.getElementById("cantidadHielo").value) || 0;
-
-                if (agua <= 0 && hielo <= 0) {
-                    alert("Indica al menos 1 garrafón de agua o 1 bolsa de hielo.");
-                    return;
-                }
-
-                lineas.push("🛒 Producto: Agua + Hielo");
-                if (agua  > 0) lineas.push(`💧 Garrafones de agua: ${agua}`);
-                if (hielo > 0) lineas.push(`🧊 Bolsas de hielo: ${hielo}`);
-            } else {
-                const cantidad = document.getElementById("cantidad").value;
-                const iconoProducto = producto.includes("Hielo") ? "🧊" : "💧";
-                lineas.push(`${iconoProducto} Producto: ${producto}`);
-                lineas.push(`📦 Cantidad: ${cantidad}`);
-            }
-
-            lineas.push(`📍 Dirección: ${direccion}`);
-            if (mapa) lineas.push(`🗺️ Ubicación exacta: ${mapa}`);
-            lineas.push("");
-            lineas.push("📷 Si puedes, pasa una foto de la fachada de tu casa para mayor seguridad. Envíala directamente en este chat. Si no, nos comunicaremos contigo cuando estemos cerca de tu domicilio.");
-            lineas.push("");
-            lineas.push(`👤 A nombre de: ${nombre}`);
-
-            const textoMensaje = lineas.join("\n");
-            const urlWhatsApp = `https://api.whatsapp.com/send?phone=${telefono}&text=${encodeURIComponent(textoMensaje)}`;
-
-            // Abrimos directamente el chat de WhatsApp con el número y el mensaje.
-            window.open(urlWhatsApp, '_blank');
-        }
-    </script>
-
->>>>>>> 298c7b4a5f0866485299bcee0d192daf2e7c47d5
 </body>
 </html>

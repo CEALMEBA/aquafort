@@ -1,3 +1,25 @@
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('fonts/poppins-400.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('fonts/poppins-600.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('fonts/poppins-700.woff2') format('woff2');
+}
+
 :root {
     --deep-ocean: #012a4a;
     --primary-water: #014f86;
@@ -39,7 +61,8 @@ header {
     object-fit: cover;
 }
 
-header h1 {
+header h1,
+header .marca {
     margin: 18px 0 6px 0;
     font-size: 26px;
     letter-spacing: 1px;
@@ -316,6 +339,21 @@ footer {
     font-size: 13px;
     color: var(--deep-ocean);
     font-weight: 600;
+}
+
+.wa-flotante {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 10;
+    background: linear-gradient(135deg, #1fa855, #0e7a6b);
+    color: var(--pure-white);
+    padding: 14px 20px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(14, 122, 107, 0.45);
 }
 
 /* Respeta a quien desactiva las animaciones en su sistema */

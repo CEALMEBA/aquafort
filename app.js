@@ -1,4 +1,4 @@
-const TELEFONO_WHATSAPP = "5212711482917";
+const TELEFONO_WHATSAPP = "5212711132706";
 const CLAVE_DATOS = "aquafort-datos-cliente";
 
 const $ = (id) => document.getElementById(id);
