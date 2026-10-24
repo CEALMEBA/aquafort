@@ -363,3 +363,12 @@ footer {
         transition: none !important;
     }
 }
+
+/* Campo trampa contra robots: fuera de la pantalla (no usar display:none, algunos robots lo detectan) */
+.campo-trampa {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
