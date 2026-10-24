@@ -1,5 +1,11 @@
-const TELEFONO_WHATSAPP = "5212711132706";
+const TELEFONO_WHATSAPP = "5212711482917";
 const CLAVE_DATOS = "aquafort-datos-cliente";
+// Registra el pedido como "pendiente" en el sistema de la purificadora; un empleado lo confirma después
+const API_PEDIDOS = "https://aquafort.lealtaddigital.app/api/public/orders";
+const ESPERA_API_MS = 8000;
+
+// Coordenadas del GPS (se envían al sistema para ubicar al cliente en el mapa de rutas)
+let coordenadas = null;
 
 const $ = (id) => document.getElementById(id);
 
@@ -8,8 +14,10 @@ function guardarDatos() {
     try {
         localStorage.setItem(CLAVE_DATOS, JSON.stringify({
             nombre: $("nombre").value.trim(),
+            telefono: $("telefono").value.trim(),
             direccion: $("direccion").value.trim(),
-            linkMapa: $("linkMapa").value.trim()
+            linkMapa: $("linkMapa").value.trim(),
+            coordenadas
         }));
     } catch (e) { /* almacenamiento no disponible: se ignora */ }
 }
@@ -19,6 +27,8 @@ function cargarDatos() {
         const datos = JSON.parse(localStorage.getItem(CLAVE_DATOS) || "null");
         if (!datos) return;
         $("nombre").value = datos.nombre || "";
+        $("telefono").value = datos.telefono || "";
+        if (datos.coordenadas && typeof datos.coordenadas.lat === "number") coordenadas = datos.coordenadas;
         $("direccion").value = datos.direccion || "";
         $("linkMapa").value = datos.linkMapa || "";
     } catch (e) { /* datos corruptos o sin acceso: se ignoran */ }
@@ -41,6 +51,14 @@ function seleccionarProducto(elemento) {
     limpiarErrores();
 }
 
+/* Teléfono a 10 dígitos (acepta +52, espacios y guiones); null si no es válido */
+function telefonoLimpio(valor) {
+    let digitos = valor.replace(/\D/g, "");
+    if (digitos.length === 13 && digitos.startsWith("521")) digitos = digitos.slice(3);
+    if (digitos.length === 12 && digitos.startsWith("52")) digitos = digitos.slice(2);
+    return digitos.length === 10 ? digitos : null;
+}
+
 /* ---------- VALIDACIÓN EN LÍNEA ---------- */
 function mostrarError(idCampo, mensaje) {
     const campo = $(idCampo);
@@ -55,7 +73,7 @@ function mostrarError(idCampo, mensaje) {
 }
 
 function limpiarErrores() {
-    ["cantidad", "cantidadAgua", "cantidadHielo", "direccion", "nombre"].forEach((id) => mostrarError(id, ""));
+    ["cantidad", "cantidadAgua", "cantidadHielo", "direccion", "nombre", "telefono"].forEach((id) => mostrarError(id, ""));
     $("error-cantidad-doble").textContent = "";
 }
 
@@ -86,6 +104,7 @@ function validarFormulario() {
 
     if (!$("direccion").value.trim()) marcar("direccion", "Escribe tu dirección de entrega.");
     if (!$("nombre").value.trim()) marcar("nombre", "Escribe tu nombre.");
+    if (!telefonoLimpio($("telefono").value)) marcar("telefono", "Escribe tu teléfono a 10 dígitos.");
 
     if (primerInvalido) {
         primerInvalido.focus();
@@ -112,6 +131,7 @@ function obtenerUbicacion() {
             const lat = posicion.coords.latitude.toFixed(6);
             const lng = posicion.coords.longitude.toFixed(6);
             const enlace = `https://www.google.com/maps?q=${lat},${lng}`;
+            coordenadas = { lat: Number(lat), lng: Number(lng) };
 
             $("linkMapa").value = enlace;
             guardarDatos();
@@ -135,28 +155,82 @@ function obtenerUbicacion() {
     );
 }
 
-/* ---------- ENVIAR PEDIDO A WHATSAPP ---------- */
-function enviarWhatsApp() {
+/* ---------- REGISTRAR PEDIDO EN EL SISTEMA ---------- */
+// Devuelve el número de pedido, o null si no se pudo registrar (el pedido igual se manda por WhatsApp)
+async function registrarPedido(datos) {
+    const control = new AbortController();
+    const espera = setTimeout(() => control.abort(), ESPERA_API_MS);
+    try {
+        const respuesta = await fetch(API_PEDIDOS, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(datos),
+            signal: control.signal
+        });
+        const cuerpo = await respuesta.json().catch(() => ({}));
+        return respuesta.ok && cuerpo.id ? cuerpo.id : null;
+    } catch (e) {
+        return null; // sin conexión o el sistema no respondió a tiempo
+    } finally {
+        clearTimeout(espera);
+    }
+}
+
+/* ---------- ENVIAR PEDIDO (SISTEMA + WHATSAPP) ---------- */
+async function enviarWhatsApp() {
     if (!validarFormulario()) return;
+
+    // La pestaña se abre antes de esperar al sistema: si se abre después, el navegador la bloquea como ventana emergente
+    const ventana = window.open("", "_blank");
+    if (ventana) ventana.opener = null;
+
+    const boton = $("btn-enviar");
+    const estado = $("estado-envio");
+    boton.disabled = true;
+    estado.textContent = "⏳ Registrando tu pedido...";
 
     const producto  = $("producto").value;
     const direccion = $("direccion").value.trim();
     const nombre    = $("nombre").value.trim();
+    const telefono  = telefonoLimpio($("telefono").value);
     const mapa      = $("linkMapa").value.trim();
 
+    let agua = 0;
+    let hielo = 0;
+    if (producto.includes("Ambos")) {
+        agua  = parseInt($("cantidadAgua").value, 10);
+        hielo = parseInt($("cantidadHielo").value, 10);
+    } else if (producto.includes("Hielo")) {
+        hielo = parseInt($("cantidad").value, 10);
+    } else {
+        agua = parseInt($("cantidad").value, 10);
+    }
+
+    guardarDatos();
+
+    const numeroPedido = await registrarPedido({
+        name: nombre,
+        phone: telefono,
+        address: direccion,
+        latitude: coordenadas ? coordenadas.lat : null,
+        longitude: coordenadas ? coordenadas.lng : null,
+        mapLink: mapa.startsWith("https://") ? mapa : null,
+        water: agua,
+        ice: hielo,
+        website: $("sitioWeb").value
+    });
+
     const lineas = ["¡Hola! Quisiera hacer un pedido:", ""];
+    if (numeroPedido) lineas.push(`🧾 Pedido #${numeroPedido}`);
 
     if (producto.includes("Ambos")) {
-        const agua  = parseInt($("cantidadAgua").value, 10);
-        const hielo = parseInt($("cantidadHielo").value, 10);
-
         lineas.push("🛒 Producto: Agua + Hielo");
         if (agua  > 0) lineas.push(`💧 Garrafones de agua: ${agua}`);
         if (hielo > 0) lineas.push(`🧊 Bolsas de hielo: ${hielo}`);
     } else {
         const iconoProducto = producto.includes("Hielo") ? "🧊" : "💧";
         lineas.push(`${iconoProducto} Producto: ${producto}`);
-        lineas.push(`📦 Cantidad: ${parseInt($("cantidad").value, 10)}`);
+        lineas.push(`📦 Cantidad: ${agua + hielo}`);
     }
 
     lineas.push(`📍 Dirección: ${direccion}`);
@@ -165,11 +239,19 @@ function enviarWhatsApp() {
     lineas.push("📷 Si puedes, pasa una foto de la fachada de tu casa para mayor seguridad. Envíala directamente en este chat. Si no, nos comunicaremos contigo cuando estemos cerca de tu domicilio.");
     lineas.push("");
     lineas.push(`👤 A nombre de: ${nombre}`);
-
-    guardarDatos();
+    lineas.push(`📞 Teléfono: ${telefono}`);
 
     const urlWhatsApp = `https://api.whatsapp.com/send?phone=${TELEFONO_WHATSAPP}&text=${encodeURIComponent(lineas.join("\n"))}`;
-    window.open(urlWhatsApp, "_blank", "noopener");
+    if (ventana) {
+        ventana.location.href = urlWhatsApp;
+    } else {
+        window.location.href = urlWhatsApp; // ventanas emergentes bloqueadas: se abre en esta misma pestaña
+    }
+
+    estado.textContent = numeroPedido
+        ? `✅ Pedido #${numeroPedido} registrado. Termina de enviarlo en WhatsApp.`
+        : "Termina de enviar tu pedido en WhatsApp.";
+    boton.disabled = false;
 }
 
 /* ---------- INICIO ---------- */
@@ -178,8 +260,10 @@ document.querySelectorAll(".product-option").forEach((opt) => {
 });
 $("btn-ubicacion").addEventListener("click", obtenerUbicacion);
 $("btn-enviar").addEventListener("click", enviarWhatsApp);
-["nombre", "direccion", "linkMapa"].forEach((id) => $(id).addEventListener("change", guardarDatos));
-["cantidad", "cantidadAgua", "cantidadHielo", "direccion", "nombre"].forEach((id) =>
+["nombre", "telefono", "direccion", "linkMapa"].forEach((id) => $(id).addEventListener("change", guardarDatos));
+// Si el cliente cambia el enlace a mano, las coordenadas del GPS ya no corresponden (el sistema las saca del enlace)
+$("linkMapa").addEventListener("input", () => { coordenadas = null; });
+["cantidad", "cantidadAgua", "cantidadHielo", "direccion", "nombre", "telefono"].forEach((id) =>
     $(id).addEventListener("input", () => mostrarError(id, ""))
 );
 cargarDatos();

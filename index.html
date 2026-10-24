@@ -143,9 +143,20 @@
             <input type="text" id="nombre" placeholder="Nombre completo" autocomplete="name" aria-describedby="error-nombre">
             <p class="error-campo" id="error-nombre" role="alert"></p>
 
+            <label class="etiqueta" for="telefono">📞 Tu teléfono (10 dígitos):</label>
+            <input type="tel" id="telefono" placeholder="Ej. 271 123 4567" autocomplete="tel-national" inputmode="tel" maxlength="20" aria-describedby="error-telefono">
+            <p class="error-campo" id="error-telefono" role="alert"></p>
+
+            <!-- Campo trampa: las personas no lo ven; si un robot lo llena, el pedido se descarta -->
+            <div class="campo-trampa" aria-hidden="true">
+                <label for="sitioWeb">No llenar este campo</label>
+                <input type="text" id="sitioWeb" tabindex="-1" autocomplete="off">
+            </div>
+
             <button type="button" class="btn-whatsapp" id="btn-enviar">
                 Enviar Pedido por WhatsApp 🚀
             </button>
+            <p class="nota-mini" id="estado-envio" role="status" aria-live="polite"></p>
         </section>
 
         <section class="card">
