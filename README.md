@@ -23,7 +23,7 @@ La pestaña de WhatsApp se abre **antes** de esperar al sistema, para que el nav
 | `API_PEDIDOS` | Endpoint del sistema que registra el pedido | `https://aquafort.lealtaddigital.app/api/public/orders` |
 | `ESPERA_API_MS` | Tiempo máximo de espera al sistema antes de abrir WhatsApp | `8000` |
 
-Los teléfonos de la sección de contacto y de los datos para Google (`index.html`) son aparte y no cambian con `TELEFONO_WHATSAPP`.
+Los teléfonos de la sección de contacto y de los datos para Google (`index.html`: 271 148 2917 y 271 139 7573) son aparte: si cambia el número de WhatsApp, actualízalos también.
 
 ## Datos que se envían al sistema
 ```json
